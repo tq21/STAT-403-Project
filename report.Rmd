@@ -12,7 +12,15 @@ library("ggplot2")
 library("gridExtra")
 ```
 
+## Some histograms:
+
 ```{r hist_plot, fig.width=10, fig.height=3, echo=FALSE}
 grid.arrange(gre_hist, toefl_hist, gpa_hist, ncol = 3)
+```
+
+## Some box plots:
+
+```{r box_plot, fig.width=15, fig.height=9, echo=FALSE}
+grid.arrange(box_1, box_2, box_3, box_4, box_5, box_6, ncol = 2)
 ```
 
