@@ -5,4 +5,14 @@ date: "5/27/2020"
 output: pdf_document
 ---
 
+```{r setup, include=FALSE}
+source("analysis.R")
+library("dplyr")
+library("ggplot2")
+library("gridExtra")
+```
+
+```{r hist_plot, fig.width=10, fig.height=3, echo=FALSE}
+grid.arrange(gre_hist, toefl_hist, gpa_hist, ncol = 3)
+```
 
