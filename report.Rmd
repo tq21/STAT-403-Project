@@ -1,0 +1,8 @@
+---
+title: "Analyzing students’ confidence of success in Graduate School applications"
+author: "Sky Qiu, Anastasia Stevens, Fisher Qin, Emilio Garcia"
+date: "5/27/2020"
+output: pdf_document
+---
+
+
