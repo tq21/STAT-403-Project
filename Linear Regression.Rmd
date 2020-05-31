@@ -1,0 +1,394 @@
+---
+title: "Linear Regression"
+author: "Emilio Garcia"
+date: "5/30/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Data
+```{r}
+df <- read.csv("Admission_Predict_Ver1.1.csv", stringsAsFactors = FALSE)
+```
+
+GRE Score
+```{r}
+set.seed(5312020)
+# Linear regression model
+lin_model_gre = lm(Chance.of.Admit~GRE.Score, data=df)
+summary(lin_model_gre)
+plot(x= df$GRE.Score, y=df$Chance.of.Admit)
+abline(lin_model_gre, col="red", lwd=5)
+
+  # residual plot
+plot(x=df$GRE.Score, y=lin_model_gre$residuals)
+
+  # 90% CI of the slope--
+slope_fit = summary(lin_model_gre)$coeff[2,1]
+slope_se = summary(lin_model_gre)$coeff[2,2]
+slope_fit-qnorm(0.95)*slope_se
+    # lower bound
+slope_fit+qnorm(0.95)*slope_se
+    # upper bound
+
+# Wild bootstrap
+n= nrow(df)
+y_predict = predict(lin_model_gre)
+fit_coeff = lin_model_gre$coefficients
+n = nrow(df)
+B = 10000
+coeff_BT_wild = matrix(NA, nrow=B, ncol=2)
+for(i_BT in 1:B){
+  w = sample(n,n,replace=T)
+  y_bt = y_predict+rnorm(n, sd=abs(lin_model_gre$residuals))
+  data1_BT = data.frame(GRE.Score=df$GRE.Score,
+                        Chance.of.Admit=y_bt)
+  fit_BT = lm(Chance.of.Admit~GRE.Score, data=data1_BT)
+  coeff_BT_wild[i_BT,] = fit_BT$coefficients
+}
+colnames(coeff_BT_wild) = c("Intercept","Slope")
+
+  # results
+var(coeff_BT_wild)
+
+quantile(coeff_BT_wild[,'Intercept'],c(0.05,0.95))
+quantile(coeff_BT_wild[,'Slope'],c(0.05,0.95))
+
+  # plots and histograms
+hist(coeff_BT_wild[,'Intercept'], col="tan")
+abline(v=fit_coeff[1], lwd=6, col="purple")
+
+hist(coeff_BT_wild[,'Slope'], col="palegreen")
+abline(v=fit_coeff[2], lwd=6, col="brown")
+
+plot(coeff_BT_wild, cex=0.5)
+points(x=fit_coeff[1], y=fit_coeff[2], cex=5, pch="+", col="red")
+```
+
+TOEFL Score
+```{r}
+set.seed(5312020)
+# linear regression model
+lin_model_gre = lm(Chance.of.Admit~TOEFL.Score, data=df)
+summary(lin_model_gre)
+plot(x= df$TOEFL.Score, y=df$Chance.of.Admit)
+abline(lin_model_gre, col="red", lwd=5)
+
+## residual plot
+plot(x=df$TOEFL.Score, y=lin_model_gre$residuals)
+
+## 90% CI of the slope--
+slope_fit = summary(lin_model_gre)$coeff[2,1]
+slope_se = summary(lin_model_gre)$coeff[2,2]
+slope_fit-qnorm(0.95)*slope_se
+  # lower bound
+slope_fit+qnorm(0.95)*slope_se
+  # upper bound
+
+# Wild bootstrap
+n= nrow(df)
+y_predict = predict(lin_model_gre)
+fit_coeff = lin_model_gre$coefficients
+n = nrow(df)
+B = 10000
+coeff_BT_wild = matrix(NA, nrow=B, ncol=2)
+for(i_BT in 1:B){
+  w = sample(n,n,replace=T)
+  y_bt = y_predict+rnorm(n, sd=abs(lin_model_gre$residuals))
+  data1_BT = data.frame(TOEFL.Score=df$TOEFL.Score,
+                        Chance.of.Admit=y_bt)
+  fit_BT = lm(Chance.of.Admit~TOEFL.Score, data=data1_BT)
+  coeff_BT_wild[i_BT,] = fit_BT$coefficients
+}
+colnames(coeff_BT_wild) = c("Intercept","Slope")
+
+  # results
+var(coeff_BT_wild)
+
+quantile(coeff_BT_wild[,'Intercept'],c(0.05,0.95))
+quantile(coeff_BT_wild[,'Slope'],c(0.05,0.95))
+
+  # plots and histograms
+hist(coeff_BT_wild[,'Intercept'], col="tan")
+abline(v=fit_coeff[1], lwd=6, col="purple")
+
+hist(coeff_BT_wild[,'Slope'], col="palegreen")
+abline(v=fit_coeff[2], lwd=6, col="brown")
+
+plot(coeff_BT_wild, cex=0.5)
+points(x=fit_coeff[1], y=fit_coeff[2], cex=5, pch="+", col="red")
+```
+
+University Rating
+```{r}
+set.seed(5312020)
+# linear regression model
+lin_model_gre = lm(Chance.of.Admit~University.Rating, data=df)
+summary(lin_model_gre)
+plot(x= df$University.Rating, y=df$Chance.of.Admit)
+abline(lin_model_gre, col="red", lwd=5)
+
+## residual plot
+plot(x=df$University.Rating, y=lin_model_gre$residuals)
+
+## 90% CI of the slope--
+slope_fit = summary(lin_model_gre)$coeff[2,1]
+slope_se = summary(lin_model_gre)$coeff[2,2]
+slope_fit-qnorm(0.95)*slope_se
+  # lower bound
+slope_fit+qnorm(0.95)*slope_se
+  # upper bound
+
+# Wild bootstrap
+n= nrow(df)
+y_predict = predict(lin_model_gre)
+fit_coeff = lin_model_gre$coefficients
+n = nrow(df)
+B = 10000
+coeff_BT_wild = matrix(NA, nrow=B, ncol=2)
+for(i_BT in 1:B){
+  w = sample(n,n,replace=T)
+  y_bt = y_predict+rnorm(n, sd=abs(lin_model_gre$residuals))
+  data1_BT = data.frame(University.Rating=df$University.Rating,
+                        Chance.of.Admit=y_bt)
+  fit_BT = lm(Chance.of.Admit~University.Rating, data=data1_BT)
+  coeff_BT_wild[i_BT,] = fit_BT$coefficients
+}
+colnames(coeff_BT_wild) = c("Intercept","Slope")
+
+  # results
+var(coeff_BT_wild)
+
+quantile(coeff_BT_wild[,'Intercept'],c(0.05,0.95))
+quantile(coeff_BT_wild[,'Slope'],c(0.05,0.95))
+
+  # plots and histograms
+hist(coeff_BT_wild[,'Intercept'], col="tan")
+abline(v=fit_coeff[1], lwd=6, col="purple")
+
+hist(coeff_BT_wild[,'Slope'], col="palegreen")
+abline(v=fit_coeff[2], lwd=6, col="brown")
+
+plot(coeff_BT_wild, cex=0.5)
+points(x=fit_coeff[1], y=fit_coeff[2], cex=5, pch="+", col="red")
+```
+
+Statement of Purpose
+```{r}
+set.seed(5312020)
+# linear regression model
+lin_model_gre = lm(Chance.of.Admit~SOP, data=df)
+summary(lin_model_gre)
+plot(x= df$SOP, y=df$Chance.of.Admit)
+abline(lin_model_gre, col="red", lwd=5)
+
+## residual plot
+plot(x=df$SOP, y=lin_model_gre$residuals)
+
+## 90% CI of the slope--
+slope_fit = summary(lin_model_gre)$coeff[2,1]
+slope_se = summary(lin_model_gre)$coeff[2,2]
+slope_fit-qnorm(0.95)*slope_se
+  # lower bound
+slope_fit+qnorm(0.95)*slope_se
+  # upper bound
+
+# Wild bootstrap
+n= nrow(df)
+y_predict = predict(lin_model_gre)
+fit_coeff = lin_model_gre$coefficients
+n = nrow(df)
+B = 10000
+coeff_BT_wild = matrix(NA, nrow=B, ncol=2)
+for(i_BT in 1:B){
+  w = sample(n,n,replace=T)
+  y_bt = y_predict+rnorm(n, sd=abs(lin_model_gre$residuals))
+  data1_BT = data.frame(SOP=df$SOP,
+                        Chance.of.Admit=y_bt)
+  fit_BT = lm(Chance.of.Admit~SOP, data=data1_BT)
+  coeff_BT_wild[i_BT,] = fit_BT$coefficients
+}
+colnames(coeff_BT_wild) = c("Intercept","Slope")
+
+  # results
+var(coeff_BT_wild)
+
+quantile(coeff_BT_wild[,'Intercept'],c(0.05,0.95))
+quantile(coeff_BT_wild[,'Slope'],c(0.05,0.95))
+
+  # plots and histograms
+hist(coeff_BT_wild[,'Intercept'], col="tan")
+abline(v=fit_coeff[1], lwd=6, col="purple")
+
+hist(coeff_BT_wild[,'Slope'], col="palegreen")
+abline(v=fit_coeff[2], lwd=6, col="brown")
+
+plot(coeff_BT_wild, cex=0.5)
+points(x=fit_coeff[1], y=fit_coeff[2], cex=5, pch="+", col="red")
+```
+
+Letter of Recommendation
+```{r}
+set.seed(5312020)
+# linear regression model
+lin_model_gre = lm(Chance.of.Admit~LOR, data=df)
+summary(lin_model_gre)
+plot(x= df$LOR, y=df$Chance.of.Admit)
+abline(lin_model_gre, col="red", lwd=5)
+
+## residual plot
+plot(x=df$LOR, y=lin_model_gre$residuals)
+
+## 90% CI of the slope--
+slope_fit = summary(lin_model_gre)$coeff[2,1]
+slope_se = summary(lin_model_gre)$coeff[2,2]
+slope_fit-qnorm(0.95)*slope_se
+  # lower bound
+slope_fit+qnorm(0.95)*slope_se
+  # upper bound
+
+# Wild bootstrap
+n= nrow(df)
+y_predict = predict(lin_model_gre)
+fit_coeff = lin_model_gre$coefficients
+n = nrow(df)
+B = 10000
+coeff_BT_wild = matrix(NA, nrow=B, ncol=2)
+for(i_BT in 1:B){
+  w = sample(n,n,replace=T)
+  y_bt = y_predict+rnorm(n, sd=abs(lin_model_gre$residuals))
+  data1_BT = data.frame(LOR=df$LOR,
+                        Chance.of.Admit=y_bt)
+  fit_BT = lm(Chance.of.Admit~LOR, data=data1_BT)
+  coeff_BT_wild[i_BT,] = fit_BT$coefficients
+}
+colnames(coeff_BT_wild) = c("Intercept","Slope")
+
+  # results
+var(coeff_BT_wild)
+
+quantile(coeff_BT_wild[,'Intercept'],c(0.05,0.95))
+quantile(coeff_BT_wild[,'Slope'],c(0.05,0.95))
+
+  # plots and histograms
+hist(coeff_BT_wild[,'Intercept'], col="tan")
+abline(v=fit_coeff[1], lwd=6, col="purple")
+
+hist(coeff_BT_wild[,'Slope'], col="palegreen")
+abline(v=fit_coeff[2], lwd=6, col="brown")
+
+plot(coeff_BT_wild, cex=0.5)
+points(x=fit_coeff[1], y=fit_coeff[2], cex=5, pch="+", col="red")
+```
+
+GPA
+```{r}
+set.seed(5312020)
+# linear regression model
+lin_model_gre = lm(Chance.of.Admit~CGPA, data=df)
+summary(lin_model_gre)
+plot(x= df$CGPA, y=df$Chance.of.Admit)
+abline(lin_model_gre, col="red", lwd=5)
+
+## residual plot
+plot(x=df$CGPA, y=lin_model_gre$residuals)
+
+## 90% CI of the slope--
+slope_fit = summary(lin_model_gre)$coeff[2,1]
+slope_se = summary(lin_model_gre)$coeff[2,2]
+slope_fit-qnorm(0.95)*slope_se
+  # lower bound
+slope_fit+qnorm(0.95)*slope_se
+  # upper bound
+
+# Wild bootstrap
+n= nrow(df)
+y_predict = predict(lin_model_gre)
+fit_coeff = lin_model_gre$coefficients
+n = nrow(df)
+B = 10000
+coeff_BT_wild = matrix(NA, nrow=B, ncol=2)
+for(i_BT in 1:B){
+  w = sample(n,n,replace=T)
+  y_bt = y_predict+rnorm(n, sd=abs(lin_model_gre$residuals))
+  data1_BT = data.frame(CGPA=df$CGPA,
+                        Chance.of.Admit=y_bt)
+  fit_BT = lm(Chance.of.Admit~CGPA, data=data1_BT)
+  coeff_BT_wild[i_BT,] = fit_BT$coefficients
+}
+colnames(coeff_BT_wild) = c("Intercept","Slope")
+
+  # results
+var(coeff_BT_wild)
+
+quantile(coeff_BT_wild[,'Intercept'],c(0.05,0.95))
+quantile(coeff_BT_wild[,'Slope'],c(0.05,0.95))
+
+  # plots and histograms
+hist(coeff_BT_wild[,'Intercept'], col="tan")
+abline(v=fit_coeff[1], lwd=6, col="purple")
+
+hist(coeff_BT_wild[,'Slope'], col="palegreen")
+abline(v=fit_coeff[2], lwd=6, col="brown")
+
+plot(coeff_BT_wild, cex=0.5)
+points(x=fit_coeff[1], y=fit_coeff[2], cex=5, pch="+", col="red")
+```
+
+Research
+```{r}
+set.seed(5312020)
+# linear regression model
+lin_model_gre = lm(Chance.of.Admit~Research, data=df)
+summary(lin_model_gre)
+plot(x= df$Research, y=df$Chance.of.Admit)
+abline(lin_model_gre, col="red", lwd=5)
+
+## residual plot
+plot(x=df$Research, y=lin_model_gre$residuals)
+
+## 90% CI of the slope--
+slope_fit = summary(lin_model_gre)$coeff[2,1]
+slope_se = summary(lin_model_gre)$coeff[2,2]
+slope_fit-qnorm(0.95)*slope_se
+  # lower bound
+slope_fit+qnorm(0.95)*slope_se
+  # upper bound
+
+# Wild bootstrap
+n= nrow(df)
+y_predict = predict(lin_model_gre)
+fit_coeff = lin_model_gre$coefficients
+n = nrow(df)
+B = 10000
+coeff_BT_wild = matrix(NA, nrow=B, ncol=2)
+for(i_BT in 1:B){
+  w = sample(n,n,replace=T)
+  y_bt = y_predict+rnorm(n, sd=abs(lin_model_gre$residuals))
+  data1_BT = data.frame(Research=df$Research,
+                        Chance.of.Admit=y_bt)
+  fit_BT = lm(Chance.of.Admit~Research, data=data1_BT)
+  coeff_BT_wild[i_BT,] = fit_BT$coefficients
+}
+colnames(coeff_BT_wild) = c("Intercept","Slope")
+
+  # results
+var(coeff_BT_wild)
+
+quantile(coeff_BT_wild[,'Intercept'],c(0.05,0.95))
+quantile(coeff_BT_wild[,'Slope'],c(0.05,0.95))
+
+  # plots and histograms
+hist(coeff_BT_wild[,'Intercept'], col="tan")
+abline(v=fit_coeff[1], lwd=6, col="purple")
+
+hist(coeff_BT_wild[,'Slope'], col="palegreen")
+abline(v=fit_coeff[2], lwd=6, col="brown")
+
+plot(coeff_BT_wild, cex=0.5)
+points(x=fit_coeff[1], y=fit_coeff[2], cex=5, pch="+", col="red")
+```
+
