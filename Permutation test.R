@@ -2,8 +2,8 @@ data0 = read.table('/Users/qinyu/Desktop/Admission_Predict_Ver1.1.csv', sep = ',
 data0
 names(data0) = c('Serial No.', 'GRE Score', 'TOEFL Score',
                  'University Rating', 'SOP', 'LOR', 'CGPA', 'Research', 'Chance of Admit')
-data_R = data0$`Chance of Admit`[data0$Research=='1']
-data_NR = data0$`Chance of Admit`[data0$Research=='0']
+data_R = data0$`CGPA`[data0$Research=='1']
+data_NR = data0$`CGPA`[data0$Research=='0']
 t.test(data_R, data_NR)
 
 
@@ -30,7 +30,7 @@ which(diff_med_per>diff_med)
 
 (length(which(diff_med_per > diff_med))+1)/N_per
 
-hist(diff_med_per, col="cyan", xlim = c(0, 0.16))
+hist(diff_med_per, col="cyan", xlim = c(0, 0.7))
 abline(v = diff_med, col="red", lwd=6)
 
 
@@ -51,5 +51,5 @@ which(diff_mean_per>diff_mean)
 
 (length(which(diff_mean_per > diff_mean))+1)/N_per
 
-hist(diff_mean_per, col="cyan", xlim = c(0, 0.17))
+hist(diff_mean_per, col="cyan", xlim = c(0, 0.62))
 abline(v = diff_mean, col="red", lwd=6)
