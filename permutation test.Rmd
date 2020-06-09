@@ -1,0 +1,71 @@
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document: default
+---
+From the previous regression part, we already know that whether having a research experience has a difference in chance of admit, which meets our common sense. However, we still want to know if there are any correlations between features except for the target "chance of admit". In this part, we choose "research experience" and "cgpa". In our common sense, people who have research experiences are usually those who have better scores, we try to prove that using a t-test and 2 different permutation tests.\newline
+We first conduct a t-test. The null hypothesis is that "There is no difference on GPA between people who have research experience and those who do not." and $H_1$ is that "There is a difference."
+```{r}
+data0 = read.table('/Users/qinyu/Desktop/Admission_Predict_Ver1.1.csv', sep = ',')
+names(data0) = c('Serial No.', 'GRE Score', 'TOEFL Score',
+                 'University Rating', 'SOP', 'LOR', 'CGPA', 'Research', 'Chance of Admit')
+data_R = data0$`CGPA`[data0$Research=='1']
+data_NR = data0$`CGPA`[data0$Research=='0']
+t.test(data_R, data_NR)
+```
+As we can see, the t-test shows that there is a difference, the pvalue is small, which rejects the null hypothesis. The mean of students' GPA who have research experience is higher than those who don't.\newline
+We want to know if the permutation test gives the same result. By choosing $B=10000$, we use BootStrap to conduct a permutation test and histogram the results with a vertical line indicating the true difference of mean values.
+```{r}
+set.seed(1951635)
+n_R = length(data_R)
+n_NR = length(data_NR)
+n = n_R+n_NR
+
+data_pull = c(data_R, data_NR)
+diff_mean = abs(mean(data_R)-mean(data_NR))
+
+N_per = 10000
+diff_mean_per = rep(NA, N_per)
+for(i_per in 1:N_per){
+  w_per = sample(n, n, replace=F)
+  data_per = data_pull[w_per]
+  data_R_new = data_per[1:n_R]
+  data_NR_new = data_per[(n_R+1):n]
+  diff_new = abs(mean(data_R_new)-median(data_NR_new))
+  diff_mean_per[i_per] = diff_new
+}
+
+which(diff_mean_per>diff_mean)
+
+(length(which(diff_mean_per > diff_mean))+1)/N_per
+
+hist(diff_mean_per, col="cyan", xlim = c(0, 0.62))
+abline(v = diff_mean, col="red", lwd=6)
+
+```
+Except for the mean value, I'm also curious about the median, so I did another permutation test with respect to the mean value.
+```{r}
+set.seed(1951635)
+diff_med = abs(median(data_R)-median(data_NR))
+
+N_per = 10000
+diff_med_per = rep(NA, N_per)
+for(i_per in 1:N_per){
+  w_per = sample(n, n, replace=F)
+  data_per = data_pull[w_per]
+  data_R_new = data_per[1:n_R]
+  data_NR_new = data_per[(n_R+1):n]
+  diff_new = abs(median(data_R_new)-median(data_NR_new))
+  diff_med_per[i_per] = diff_new
+}
+
+which(diff_med_per>diff_med)
+
+(length(which(diff_med_per > diff_med))+1)/N_per
+
+hist(diff_med_per, col="cyan", xlim = c(0, 0.7))
+abline(v = diff_med, col="red", lwd=6)
+```
+We get the same conclusion that pvalue is really small, so we can reject the null hypothesis and say there is a difference between students' GPA between those who have research experiences and those who do not. \newline
+Since the distribution of data seems normal, the t-test and the permutation tests give the same results.
