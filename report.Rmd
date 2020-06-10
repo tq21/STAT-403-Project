@@ -44,10 +44,7 @@ $$
 CV_{(k)} = \frac{1}{k} \sum_{i=1}^{k}MSE_{i}
 $$
 
-Because the CV estimate is dependent on the splitting of the $k$-folds, we would like to visualize the variance of our CV estimate using different random splitting of the data. Therefore, we perform the following operations for 10 iterations:
-For each of the 7 models we get from the previous Best Subset Selection, compute the CV estimate 10 times using different random splitting
-
-Plot the CV estimates for the 7 models
+Because the CV estimate is dependent on the splitting of the $k$-folds, we would like to see the variance of our CV estimate using different random splitting of the data. Therefore, we perform the cross-validation 10 times using different seeds. Each time, we compute the CV estimate for each of the 7 models we got from the previous Best Subset Selection.
 
 # Results
 
@@ -76,7 +73,7 @@ After fitting the simple linear regression model, we added in more predictors to
 ```{r selection, echo=FALSE, fig.cap="Best Subset Selection result", out.width='95%', fig.align="center"}
 knitr::include_graphics("./figures/selection.png")
 ```
-The asterisk in the chart indicates inclusion of the corresponding predictor in the model. The numbers at the very left represent the number of predictors in the model. As an example, among all the possible models with 2 predictors, “GRE score” and “cumulative GPA” have the “best” performance. Here, 'best' is determined by the cross-validation result in our Method section.
+The asterisk in the chart indicates inclusion of the corresponding predictor in the model. The numbers at the very left represent the number of predictors in the model. As an example, among all the possible models with 2 predictors, 'GRE score' and 'cumulative GPA' have the 'best' performance. Here, 'best' is determined by the cross-validation result in our Method section.
 
 In order to choose the appropriate number of predictors to include in the model, we did a 10-fold cross-validation on each of the models. Using the steps for cross-validation described in our Method section, we plotted the following graph:
 ```{r cv, echo=FALSE, fig.cap="10-fold CV with different seeds", out.width='55%', fig.align="center"}
@@ -103,7 +100,6 @@ This table displays the coefficient estimates of the predictors:
 | LOR         | 0.019320  |  0.003794  | 5.09    | 5e-07    |
 | CGPA        | 0.122980  |  0.009302  | 13.22   | < 2e-16  |
 | Research1   | 0.025165  |  0.006599  | 3.81    | 0.00015  |
-
 
 ### t-test, Permutation Test
 
