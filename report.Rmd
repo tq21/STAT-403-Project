@@ -34,11 +34,11 @@ Although a linear regression model with all predictors included will likely resu
 
 There are three major classes of methods to remove irrelevant variables: Subset Selection, Shrinkage Methods, and Dimension Reduction Methods. In our case, we performed a Best Subset Selection, which is a method under the Subset Selection class. The idea of Best Subset Selection is that we fit a separate least squares regression for each and every possible combination of the predictors. And for each number of predictors, we select the model with lowest RSS. Suppose there are a total of $p$ predictors, we would fit $\binom{p}{3}$ models that contain exactly 3 predictors, and so on. In total, we would fit $2^p$ different models.
 
-One of the major disadvantages of using Best Subset Selection is the high computational costs for fitting $2^p$ different models. Also, if $p$, the number of predictors, is large, we might only find predictors that reduce training error while not so much on testing error. This could reduce the predictive power of our model and increase the variance of the coefficient estimates. However, in our data, the number of predictors is 7, which is fairly small relative to the number of observations we have, 500. Therefore, we could use this method without having to worry too much about the computational costs.
+One of the major disadvantages of using Best Subset Selection is the high computational costs for fitting $2^p$ different models (James, 2017). Also, if $p$, the number of predictors, is large, we might only find predictors that reduce training error while not so much on testing error. This could reduce the predictive power of our model and increase the variance of the coefficient estimates. However, in our data, the number of predictors is 7, which is fairly small relative to the number of observations we have, 500. Therefore, we could use this method without having to worry too much about the computational costs.
 
 ### $k$-fold Cross-Validation
 
-And to further analyze models with different numbers of predictors included, we performed a 10-fold cross-validation to see how the models vary in test error. To perform the cross-validation, we used the ‘train’ function in the ‘caret’ library. The function takes in a model, performs cross-validation, and outputs the CV estimate, given by the function ($k$-fold):
+To further analyze models with different numbers of predictors included, we performed a 10-fold cross-validation to see how the models vary in test error. To perform the cross-validation, we used the ‘train’ function in the ‘caret’ library. The function takes in a model, performs cross-validation, and outputs the CV estimate, given by the function ($k$-fold):
 
 $$
 CV_{(k)} = \frac{1}{k} \sum_{i=1}^{k}MSE_{i}
@@ -103,62 +103,32 @@ This table displays the coefficient estimates of the predictors:
 
 ### t-test, Permutation Test
 
-From the previous regression part, we already know that having a research experience could have an impact of the confidence of success, which meets our expectation. However, we still want to know if there are any correlations among predictors other the response, 'Chance of Admit'. In this part, we choose 'Research Experience' and 'Cumulative GPA.' We expect students who have research experience are more likely to have a higher GPA, we try to test that using a t-test and 2 different permutation tests.
+From the previous regression part, we already know that having a research experience could have an impact on the confidence of success, which meets our expectation. However, we still want to know if there are any correlations among predictors other than the response, 'Chance of Admit'. In this part, we choose 'Research Experience' and 'Cumulative GPA.' We expect students who have research experience to be more likely to have a higher GPA, we try to test that using a t-test and a permutation test.
 
-We first conducted a t-test. The null hypothesis is 'there is no difference on GPA between people who have research experience and those who do not.' and the alternative hypothesis is 'there is a difference.' The test statistic we got is $t=13.216$. The t-test shows that there is indeed a difference, the p-value is less than 2.2e-16, which rejects the null hypothesis. And we conclude that the mean of students' GPA who have research experience is higher than those who don't.
+We first conducted a t-test. The null hypothesis is 'there is no difference on GPA between people who have research experience and those who do not.' and the alternative hypothesis is 'there is a difference.' The test statistic we got is $t=13.216$. The t-test shows that there is indeed a difference, the p-value is less than 2.2e-16, which rejects the null hypothesis. And we conclude that the students with research experience have a higher average GPA than students without research experience.
 
-We want to know if the permutation test gives the same result. By choosing bootstrap sample size of 10000, we conducted a permutation test. Figure shows the histogram of bootstrap estimates with a vertical line indicating the true difference of mean values.
+We want to know if the permutation test gives the same result. By choosing bootstrap sample size of 10000, we conducted a permutation test. Figure 5 shows the histogram of bootstrap estimates with a vertical line indicating the true difference of mean values.
 ```{r bt_mean, echo=FALSE, fig.cap="Permutation test on mean", out.width='50%', fig.align="center"}
 knitr::include_graphics("./figures/bt_mean_hist.png")
 ```
-We also performed a permutation test on the median. Figure is the result we obtained.
+We also performed a permutation test on the median. Figure 6 is the result we obtained.
 ```{r bt_med, echo=FALSE, fig.cap="Permutation test on median", out.width='50%', fig.align="center"}
 knitr::include_graphics("./figures/bt_med_hist.png")
 ```
-We got the same result that p-value is really small, so we can reject the null hypothesis and say there is a difference between students' GPA between those who have research experiences and those who do not. Since the distribution of data seems normal, the t-test and the permutation tests yielded the same result.
+We got the same result that p-value is really small, so we can reject the null hypothesis and conclude that there is a difference in GPA between students who have research experiences and those who do not. Since the distribution of data seems normal, the t-test and the permutation tests yielded the same result.
 
 # Discussion
 
-Based on the regression models and cross validation, five of the factors were considered adequate predictors for a students’ confidence in a successful application. The GPA was considered to be the most significant predictor. The other four were GRE scores, TOEFL scores, letters of recommendation, and research experience.
+Based on the regression models and cross validation, five of the factors were considered adequate predictors for a students’ confidence in a successful application. The GPA was considered to be the most significant predictor. The other four were GRE scores, TOEFL scores, letters of recommendation, and research experience. On the other hand, the least important factor was statement of purpose.
 
-The t-test and permutation test results agree that students with research experience tend to have a notably higher cumulative GPA than those without research experience. This was true for both the permutation test on the mean and median of students’ GPA. 
+One interesting thing is that within these five selected predictors, TOEFL scores was the least important one. One reason could be that since most of these students have already passed the required TOEFL scores, they do not consider TOEFL scores as important anymore. But further analysis is required to better understand this phenomenon.
+
+The t-test and permutation test results agree that students with research experience tend to have a notably higher cumulative GPA than those without research experience. This was true for both the permutation test on the mean and median of students’ GPA. However, this does not suggest any cause-and-effect relationships between those two factors.
+
+\newpage
 
 # Works Cited
-Mohan S Acharya, Asfia Armaan, Aneeta S Antony : A Comparison of Regression Models for Prediction of Graduate Admissions, IEEE International Conference on Computational Intelligence in Data Science 2019
+Mohan S Acharya, Asfia Armaan, Aneeta S Antony : A Comparison of Regression Models for Prediction of Graduate Admissions, IEEE International Conference on Computational Intelligence in Data Science 2019.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Some histograms:
-
-```{r hist_plot, fig.width=10, fig.height=6, echo=FALSE}
-#grid.arrange(gre_hist, toefl_hist, gpa_hist, rating_hist,
-#             sop_hist, lor_hist, res_hist, chance_hist,
-#             ncol = 4)
-```
-
-## Some box plots:
-
-```{r box_plot, fig.width=15, fig.height=9, echo=FALSE}
-#grid.arrange(box_1, box_2, box_3, box_4, box_5, box_6, ncol = 2)
-```
+James, Gareth, et al. An Introduction to Statistical Learning: with Applications in R. Springer, 2017.
 
