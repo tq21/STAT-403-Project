@@ -140,14 +140,14 @@ box_int=boxplot(intercepts,outline=FALSE,boxwex=0.25,ylab="Intercept",col="gray"
 bxp(box_int,axes=FALSE)
 axis(2)
 axis(1,tick=FALSE,labels=c("Empirical","Residual", "Wild"),at=1:3)
-stripchart(intercepts,vertical=TRUE,pch=16,col="orange",method="jitter",add=TRUE)
+#stripchart(intercepts,vertical=TRUE,pch=16,col="orange",method="jitter",add=TRUE)
     # Slope
 slopes <- list(Empirical=coeff_BT[,'Slope'], Residual=coeff_BT_res[,'Slope'], Wild=coeff_BT_wild[,'Slope'])
 box_slope=boxplot(slopes,outline=FALSE,boxwex=0.25,ylab="Slope",col="gray",plot=FALSE)
 bxp(box_slope,axes=FALSE)
 axis(2)
 axis(1,tick=FALSE,labels=c("Empirical","Residual", "Wild"),at=1:3)
-stripchart(slopes,vertical=TRUE,pch=16,col="light blue",method="jitter",add=TRUE)
+#stripchart(slopes,vertical=TRUE,pch=16,col="light blue",method="jitter",add=TRUE)
 ```
 
 TOEFL Score
@@ -420,6 +420,21 @@ bxp(box_slope,axes=FALSE)
 axis(2)
 axis(1,tick=FALSE,labels=c("Empirical","Residual", "Wild"),at=1:3)
 stripchart(slopes,vertical=TRUE,pch=16,col="light blue",method="jitter",add=TRUE)
+```
+```{r}
+intercepts <- list(Empirical=coeff_BT[,'Intercept'], Residual=coeff_BT_res[,'Intercept'], Wild=coeff_BT_wild[,'Intercept'])
+box_int=boxplot(intercepts,outline=FALSE,boxwex=0.25,ylab="Intercept",col="gray",plot=FALSE)
+bxp(box_int,axes=FALSE)
+axis(2)
+axis(1,tick=FALSE,labels=c("Empirical","Residual", "Wild"),at=1:3)
+#stripchart(intercepts,vertical=TRUE,pch=16,col="orange",method="jitter",add=TRUE)
+# Slope
+slopes <- list(Empirical=coeff_BT[,'Slope'], Residual=coeff_BT_res[,'Slope'], Wild=coeff_BT_wild[,'Slope'])
+box_slope=boxplot(slopes,outline=FALSE,boxwex=0.25,ylab="Slope",col="gray",plot=FALSE)
+bxp(box_slope,axes=FALSE)
+axis(2)
+axis(1,tick=FALSE,labels=c("Empirical","Residual", "Wild"),at=1:3)
+#stripchart(slopes,vertical=TRUE,pch=16,col="light blue",method="jitter",add=TRUE)
 ```
 
 Statement of Purpose

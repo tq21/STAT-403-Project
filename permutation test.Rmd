@@ -7,7 +7,7 @@ output:
 From the previous regression part, we already know that whether having a research experience has a difference in chance of admit, which meets our common sense. However, we still want to know if there are any correlations between features except for the target "chance of admit". In this part, we choose "research experience" and "cgpa". In our common sense, people who have research experiences are usually those who have better scores, we try to prove that using a t-test and 2 different permutation tests.\newline
 We first conduct a t-test. The null hypothesis is that "There is no difference on GPA between people who have research experience and those who do not." and $H_1$ is that "There is a difference."
 ```{r}
-data0 = read.table('/Users/qinyu/Desktop/Admission_Predict_Ver1.1.csv', sep = ',')
+data0 = read.table('./data/Admission_Predict_Ver1.1.csv', sep = ',')
 names(data0) = c('Serial No.', 'GRE Score', 'TOEFL Score',
                  'University Rating', 'SOP', 'LOR', 'CGPA', 'Research', 'Chance of Admit')
 data_R = data0$`CGPA`[data0$Research=='1']
