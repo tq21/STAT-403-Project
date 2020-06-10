@@ -96,31 +96,18 @@ regfit.bwd = regsubsets(Chance.of.Admit ~ ., data = df, method = "exhaustive")
 summary(regfit.bwd)
 
 
-train.control <- trainControl(method = "cv", number = 10)
-model <- train(Chance.of.Admit ~ GRE.Score +
-                 TOEFL.Score +
-                 University.Rating +
-                 LOR +
-                 CGPA +
-                 Research, data = df, method = "lm", trControl = train.control)
+train.control <- trainControl(method = "cv", number = 1)
+model_5 <- train(Chance.of.Admit ~ GRE.Score +
+                   TOEFL.Score +
+                   LOR +
+                   CGPA +
+                   Research, data = df, method = "lm", trControl = train.control)
 
-summary(model_5)
+model_1 <- train(Chance.of.Admit ~ CGPA, data = df, method = "lm", trControl = train.control)
 
-## train/test split, 80/20
-sample_size <- floor(0.8 * nrow(df))
-set.seed(2020)
-train_ind <- sample(seq_len(nrow(df)), size = sample_size)
-train <- df[train_ind, ]
-test <- df[-train_ind, ]
+summary(model_1)
 
-model_5 <- lm(Chance.of.Admit ~ GRE.Score +
-                TOEFL.Score +
-                LOR +
-                CGPA +
-                Research, data = train)
-
-pred <- predict.lm(model_5, test)
-mean((test$Chance.of.Admit-pred)^2)
+model_1$results
 
 
 

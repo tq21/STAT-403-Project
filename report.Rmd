@@ -56,9 +56,15 @@ In our very first simple linear regression model, we used ‘GRE score’ as the
 knitr::include_graphics("./figures/residual.png")
 ```
 Therefore, we could safely perform residual bootstrap on our data. Here is a table showing a comparison of empirical, residual, and wild bootstrap results:
-```{r compare_tab, echo=FALSE, out.width='90%', fig.align="center"}
-knitr::include_graphics("./figures/compare_stat.png")
-```
+
+|           | Intercept |          |         | Slope     |          |          |
+|-----------|-----------|----------|---------|-----------|----------|----------|
+| Bootstrap | Empirical | Residual | Wild    | Empirical | Residual | Wild     |
+| Variance  | 0.00927   | 0.0108   | 0.00904 | 9.05e-8   | 1.08e-7  | 8.84e-8  |
+| MSE       | 0.00926   | 0.0108   | 0.00904 | 9.05e-8   | 1.08e-7  | 8.83e-8  |
+| Lower CI  | -2.64     | -2.65    | -2.64   | 0.00963   | 0.00959  | 0.00964  |
+| Upper CI  | -2.33     | -2.31    | -2.33   | 0.0106    | 0.0107   | 0.0106   |
+
 ```{r compare, echo=FALSE, fig.cap="Comparison of bootstrap methods", out.width='65%', fig.align="center"}
 knitr::include_graphics("./figures/bt_compare.png")
 ```
@@ -80,7 +86,11 @@ In this graph, each color corresponds to one random outcome of splitting the dat
 
 We then fitted a multiple linear regression model using these 5 predictors. Here is a table to help us compare this model with our previous model where only ‘GRE score’ is included.
 
-//table, compare 1feature vs 5feature
+|              | 1-predictor model | 5-predictor model |
+|--------------|-------------------|-------------------|
+| adjusted R^2 | 0.778             | 0.819             |
+| RMSE         | 0.0659            | 0.0603            |
+
 
 ### t-test, Permutation Test
 
