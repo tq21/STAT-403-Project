@@ -132,3 +132,10 @@ Mohan S Acharya, Asfia Armaan, Aneeta S Antony : A Comparison of Regression Mode
 
 James, Gareth, et al. An Introduction to Statistical Learning: with Applications in R. Springer, 2017.
 
+# Appendix
+All the code and figures are available in our GitHub repository: \newline
+(https://github.com/tq21/STAT-403-Project)
+
+
+
+
