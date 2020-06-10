@@ -91,6 +91,19 @@ We then fitted a multiple linear regression model using these 5 predictors. Here
 | adjusted R^2 | 0.778             | 0.819             |
 | RMSE         | 0.0659            | 0.0603            |
 
+\newpage
+
+This table displays the coefficient estimates of the predictors:
+
+|             | Estimate  | Std. Error | t value | Pr(>|t|) |
+|-------------|-----------|------------|---------|----------|
+| (Intercept) | -1.335702 |  0.099075  | -13.48  | < 2e-16  |
+| GRE.Score   | 0.001889  |  0.000502  | 3.76    | 0.00019  |
+| TOEFL.Score | 0.003017  |  0.000862  | 3.50    | 0.00051  |
+| LOR         | 0.019320  |  0.003794  | 5.09    | 5e-07    |
+| CGPA        | 0.122980  |  0.009302  | 13.22   | < 2e-16  |
+| Research1   | 0.025165  |  0.006599  | 3.81    | 0.00015  |
+
 
 ### t-test, Permutation Test
 
@@ -110,6 +123,9 @@ We got the same result that p-value is really small, so we can reject the null h
 
 # Discussion
 
+Based on the regression models and cross validation, five of the factors were considered adequate predictors for a students’ confidence in a successful application. The GPA was considered to be the most significant predictor. The other four were GRE scores, TOEFL scores, letters of recommendation, and research experience.
+
+The t-test and permutation test results agree that students with research experience tend to have a notably higher cumulative GPA than those without research experience. This was true for both the permutation test on the mean and median of students’ GPA. 
 
 # Works Cited
 Mohan S Acharya, Asfia Armaan, Aneeta S Antony : A Comparison of Regression Models for Prediction of Graduate Admissions, IEEE International Conference on Computational Intelligence in Data Science 2019
